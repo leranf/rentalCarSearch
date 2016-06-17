@@ -4,7 +4,7 @@ const app = express();
 // dotenv sets up the process.env variables. Put env variables in a .env file in your root
 const PORT = 8000;
 
-app.use(express.static('../client'));
+app.use(express.static('client'));
 
 app.set('port', PORT);
 const server = app.listen(PORT);
