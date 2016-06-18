@@ -1,2 +1,6 @@
+# Dependency directory
+node_modules
+
+# OS metadata
 .DS_Store
-node_modules/
+Thumbs.db

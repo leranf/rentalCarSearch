@@ -15,7 +15,7 @@ var webpack = require('webpack');
 var config = require('./webpack.config');
 
 // Load environment variables from .env file
-dotenv.load();
+dotenv.load({ path: '.env' });
 
 // ES6 Transpiler
 require('babel-core/register');
