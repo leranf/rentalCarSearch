@@ -5,7 +5,7 @@ import Home from './components/Home';
 import Contact from './components/Contact';
 import NotFound from './components/NotFound';
 
-export default function getRoutes(store) {
+const getRoutes = (store) => {
   const clearMessages = () => {
     store.dispatch({
       type: 'CLEAR_MESSAGES'
@@ -19,3 +19,5 @@ export default function getRoutes(store) {
     </Route>
   );
 }
+
+export default getRoutes;
