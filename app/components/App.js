@@ -1,6 +1,8 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+const injectTapEventPlugin = require('react-tap-event-plugin');
+injectTapEventPlugin();
 
 class App extends React.Component {
   render() {
