@@ -60,9 +60,7 @@ app.post('/contact', contactController.contactPost);
 
 // React server rendering
 app.use(function(req, res) {
-  var initialState = {
-    messages: {}
-  };
+  var initialState = {};
 
   var store = configureStore(initialState);
 
