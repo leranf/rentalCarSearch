@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import tripType from './tripType';
 import location from './location';
 import date from './date';
+import time from './time';
 
 export default combineReducers({
-  tripType,
   location,
-  date
+  date,
+  time
 });
