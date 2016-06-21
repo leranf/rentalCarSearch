@@ -6,15 +6,11 @@ const mapStateToProps = state => ({
   carResults: state.carResults.results
 });
 
-const mapDispatchToProps = dispatch => ({
-  
-});
-
 const CarResultsList = ({carResults}) => (
   <div>
     {carResults.map(carResult => 
       <CarResultsItem key={carResult.id} {...carResult}/>
-    )}
+    )};
   </div>
 );
 
@@ -22,4 +18,4 @@ CarResultsList.propTypes = {
   carResults: React.PropTypes.array.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CarResultsList);
+export default connect(mapStateToProps, null)(CarResultsList);
