@@ -2,11 +2,6 @@ import fetch from 'whatwg-fetch';
 import API_KEY from '../../public/auth/auth';
 const url = `http://api.hotwire.com/v1/search/car?apikey=${API_KEY}`;
 
-export const toggleTripType = tripType => ({
-  type: 'TOGGLE_TRIP_TYPE',
-  payload: tripType
-});
-
 export const setPickUpLocation = pickUplocation => ({
   type: 'SET_PICK_UP_LOCATION',
   payload: pickUplocation
@@ -27,7 +22,22 @@ export const setDropOffDate = dropOffDate => ({
   payload: dropOffDate
 });
 
-export const searchForCars = (tripType, pickUplocation, dropOffLocation, pickUpDate, dropOffDate) => 
+export const setPickUpTime = pickUpTime => ({
+  type: 'SET_PICK_UP_DATE',
+  payload: pickUpTime
+});
+
+export const setDropOffTime = dropOffTime => ({
+  type: 'SET_DROP_OFF_DATE',
+  payload: dropOffTime
+});
+
+export const setCarResults = results => ({
+  type: 'SET_CAR_RESULTS',
+  payload: results
+});
+
+export const searchForCars = (tripType, pickUplocation, dropOffLocation, pickUpDate, dropOffDate, pickUpTime, dropOffTime) => 
   dispatch => {
     console.log('in search cars');
     $.ajax({
