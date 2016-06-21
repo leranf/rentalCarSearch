@@ -37,7 +37,7 @@ export const setCarResults = results => ({
   payload: results
 });
 
-export const searchForCars = (tripType, pickUplocation, dropOffLocation, pickUpDate, dropOffDate, pickUpTime, dropOffTime) => 
+export const searchForCars = (location, date, time) => 
   dispatch => {
     console.log('in search cars');
     $.ajax({
