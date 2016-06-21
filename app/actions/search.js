@@ -1,4 +1,6 @@
-// import fetch from 'isomorphic-fetch';
+import fetch from 'whatwg-fetch';
+import API_KEY from '../../public/auth/auth';
+const url = `http://api.hotwire.com/v1/search/car?apikey=${API_KEY}`;
 
 export const toggleTripType = tripType => ({
   type: 'TOGGLE_TRIP_TYPE',
@@ -25,11 +27,43 @@ export const setDropOffDate = dropOffDate => ({
   payload: dropOffDate
 });
 
-export const searchForCars = (tripType, pickUplocation, dropOffLocation, pickUpDate, dropOffDate) => {
-  console.log('tripType', tripType);
-  console.log('pickUplocation', pickUplocation);
-  console.log('dropOffLocation', dropOffLocation);
-  console.log('pickUpDate', pickUpDate);
-  console.log('dropOffDate', dropOffDate);
-}
-  // dispatch => fetch}
+export const searchForCars = (tripType, pickUplocation, dropOffLocation, pickUpDate, dropOffDate) => 
+  dispatch => {
+    console.log('in search cars');
+    $.ajax({
+      url: url,
+      data: {
+        date: '2016-06-21',
+      },
+      crossDomain: true,
+      method: 'GET',
+      success: function(data) {
+        console.log('data', data);
+      },
+      error: function(err) {
+        console.log('err', err);
+      },
+      dataType: 'jsonp'
+    });
+
+    // $.ajax({
+    //   url: 'http://api.hotwire.com/v1/search/car?apikey=pt9hmnp4ngx64vaqtck2hxn3',
+    //   data: {
+    //     dest: 'LAX',
+    //     startdate: '06/22/2016',
+    //     enddate: '06/23/2016',
+    //     pickuptime: '06:00',
+    //     dropofftime: '06:00',
+    //   },
+    //   method: 'GET',
+    //   success: function(data) {
+    //     console.log('data', data);
+    //   },
+    //   error: function(err) {
+    //     console.log('err', err);
+    //   },
+    //   dataType: 'jsonp'
+    // });
+
+  }
+  // dispatch => fetch(`${url}&dest=${pickUplocation}&startdate=${pickUpDate}&enddate=${dropOffDate}`, {method: 'GET'})
