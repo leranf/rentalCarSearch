@@ -1,6 +1,5 @@
 const initialState = {
-  pickUp: null,
-  dropOff: null
+  pickUp: null
 };
 
 const location = (state = initialState, action) => {
@@ -8,10 +7,6 @@ const location = (state = initialState, action) => {
     case 'SET_PICK_UP_LOCATION':
       return Object.assign({}, state, {
         pickUp: action.payload
-      });
-    case 'SET_DROP_OFF_LOCATION':
-      return Object.assign({}, state, {
-        dropOff: action.payload
       });
     default:
       return state;
