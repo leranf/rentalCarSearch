@@ -1,15 +1,6 @@
-import fetch from 'whatwg-fetch';
-import API_KEY from '../../public/auth/auth';
-const url = `http://api.hotwire.com/v1/search/car?apikey=${API_KEY}`;
-
 export const setPickUpLocation = pickUplocation => ({
   type: 'SET_PICK_UP_LOCATION',
   payload: pickUplocation
-});
-
-export const setDropOffLocation = dropOffLocation => ({
-  type: 'SET_DROP_OFF_LOCATION',
-  payload: dropOffLocation
 });
 
 export const setPickUpDate = pickUpDate => ({
@@ -38,22 +29,27 @@ export const setCarResults = results => ({
 });
 
 export const searchForCars = (location, date, time) => 
-  dispatch => {
-    console.log('in search cars');
-    $.ajax({
-      url: url,
-      data: {
-        date: '2016-06-21',
-      },
-      crossDomain: true,
-      method: 'GET',
-      success: function(data) {
-        console.log('data', data);
-      },
-      error: function(err) {
-        console.log('err', err);
-      },
-      dataType: 'jsonp'
+  dispatch => fetch('/api/searchHotwire', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        location: location.pickUp,
+        startDate: date.pickUp,
+        endDate: date.dropOff,
+        pickUpTime: time.pickUp,
+        dropOffTime: time.dropOff
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        res.json().then(carResults => {
+          console.log('carResults', carResults);
+        });
+      } else {
+        res.json().then(badResults => {
+          console.log('error');
+        });
+      }
     });
 
     // $.ajax({
@@ -75,5 +71,3 @@ export const searchForCars = (location, date, time) =>
     //   dataType: 'jsonp'
     // });
 
-  }
-  // dispatch => fetch(`${url}&dest=${pickUplocation}&startdate=${pickUpDate}&enddate=${dropOffDate}`, {method: 'GET'})
