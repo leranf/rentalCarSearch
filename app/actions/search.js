@@ -40,10 +40,13 @@ export const searchForCars = (location, date, time) =>
         dropOffTime: time.dropOff
       })
     })
-    .then(res => res.json())
+    .then(res => {
+      // res.json()
+      console.log('RESPONSE?!?!?', res);
+    })
     .then(carResults => {
       console.log('carResults', carResults);
     })
-    .catch(badResults => {
-      console.log('error');
+    .catch(err => {
+      console.log('error', err);
     });

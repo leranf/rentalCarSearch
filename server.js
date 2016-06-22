@@ -13,8 +13,6 @@ const Provider = require('react-redux').Provider;
 const mongoose = require('mongoose');
 const webpack = require('webpack');
 const config = require('./webpack.config');
-const rp = require('request-promise');
-const parser = require('xml2json');
 // Load environment constiables from .env file
 dotenv.load({ path: '.env' });
 
@@ -23,7 +21,7 @@ require('babel-core/register');
 require('babel-polyfill');
 
 // Controllers
-const contactController = require('./controllers/contact');
+const searchController = require('./controllers/carSearch');
 
 // React and Server-Side Rendering
 const routes = require('./app/routes');
@@ -49,6 +47,16 @@ app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// const allowCrossDomain = (req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+//     next();
+// };
+
+// app.use(allowCrossDomain);
+
 if (app.get('env') === 'development') {
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
@@ -57,50 +65,7 @@ if (app.get('env') === 'development') {
   app.use(require('webpack-hot-middleware')(compiler));
 }
 
-const searchForCars = (options, callback) =>
-  rp(options)
-    .then(results => {
-      const jsonStringResults = parser.toJson(results);
-      const jsonResults = JSON.parse(jsonStringResults);
-      const carTypes = jsonResults.Hotwire.MetaData.CarMetaData.CarTypes.CarType;
-      const carResults = jsonResults.Hotwire.Result.CarResult;
-      callback({carTypes: carTypes, carResults: carResults});
-    })
-    .catch(err => {
-      console.error('API call failed...', err); 
-    });
-
-app.post('/api/searchHotwire', (req, res) => {
-  const options = {
-    uri: 'http://api.hotwire.com/v1/search/car',
-    qs: {
-        apikey: process.env.API_KEY, // -> uri + '?apikey=xxxxx'
-        // dest: req.body.location,
-        // startdate: req.body.startDate,
-        // enddate: req.body.endDate,
-        // pickuptime: req.body.pickUpTime,
-        // dropofftime: req.body.dropOffTime
-        dest: 'LAX',
-        startdate: '06/22/2016',
-        enddate: '06/23/2016',
-        pickuptime: '06:00',
-        dropofftime: '06:00'
-    }
-  };
-
-  rp(options)
-    .then(results => {
-      const jsonStringResults = parser.toJson(results);
-      const jsonResults = JSON.parse(jsonStringResults);
-      const carTypes = jsonResults.Hotwire.MetaData.CarMetaData.CarTypes.CarType;
-      const carResults = jsonResults.Hotwire.Result.CarResult;
-      res.send({carTypes, carResults});
-    })
-    .catch(err => {
-      console.error('API call failed...', err); 
-    });
-
-});
+app.post('/api/searchHotwire', searchController.carSearch);
 
 // React server rendering
 app.use(function(req, res) {
