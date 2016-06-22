@@ -40,34 +40,10 @@ export const searchForCars = (location, date, time) =>
         dropOffTime: time.dropOff
       })
     })
-    .then(res => {
-      if (res.ok) {
-        res.json().then(carResults => {
-          console.log('carResults', carResults);
-        });
-      } else {
-        res.json().then(badResults => {
-          console.log('error');
-        });
-      }
+    .then(res => res.json())
+    .then(carResults => {
+      console.log('carResults', carResults);
+    })
+    .catch(badResults => {
+      console.log('error');
     });
-
-    // $.ajax({
-    //   url: 'http://api.hotwire.com/v1/search/car?apikey=pt9hmnp4ngx64vaqtck2hxn3',
-    //   data: {
-    //     dest: 'LAX',
-    //     startdate: '06/22/2016',
-    //     enddate: '06/23/2016',
-    //     pickuptime: '06:00',
-    //     dropofftime: '06:00',
-    //   },
-    //   method: 'GET',
-    //   success: function(data) {
-    //     console.log('data', data);
-    //   },
-    //   error: function(err) {
-    //     console.log('err', err);
-    //   },
-    //   dataType: 'jsonp'
-    // });
-
