@@ -28,25 +28,33 @@ export const setCarResults = results => ({
   payload: results
 });
 
+export const getCarResults = () => ({
+  type: 'GET_CAR_RESULTS'
+});
+
 export const searchForCars = (location, date, time) => 
-  dispatch => fetch('/api/searchHotwire', {
+  dispatch => {
+    dispatch(getCarResults);
+    $.ajax({
+      url: '/api/searchHotwire',
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        location: location.pickUp,
-        startDate: date.pickUp,
-        endDate: date.dropOff,
-        pickUpTime: time.pickUp,
-        dropOffTime: time.dropOff
-      })
+      // body: JSON.stringify({
+      //   location: location.pickUp,
+      //   startDate: date.pickUp,
+      //   endDate: date.dropOff,
+      //   pickUpTime: time.pickUp,
+      //   dropOffTime: time.dropOff
+      // })
     })
-    .then(res => {
-      // res.json()
-      console.log('RESPONSE?!?!?', res);
+    .done(res => {
+      console.log('responseeee', res);
     })
-    .then(carResults => {
-      console.log('carResults', carResults);
-    })
-    .catch(err => {
+    // .then(carResults => {
+    //   console.log('carResults', carResults);
+    //   dispatch(setCarResults(carResults));
+    // })
+    .fail(err => {
       console.log('error', err);
     });
+  };

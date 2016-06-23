@@ -20,9 +20,6 @@ dotenv.load({ path: '.env' });
 require('babel-core/register');
 require('babel-polyfill');
 
-// Controllers
-const searchController = require('./controllers/carSearch');
-
 // React and Server-Side Rendering
 const routes = require('./app/routes');
 const configureStore = require('./app/store/configureStore').default;
@@ -42,10 +39,13 @@ app.set('port', process.env.PORT || 3000);
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Controllers
+const searchController = require('./controllers/carSearch');
 
 // const allowCrossDomain = (req, res, next) => {
 //     res.header('Access-Control-Allow-Origin', '*');
@@ -70,7 +70,8 @@ app.post('/api/searchHotwire', searchController.carSearch);
 // React server rendering
 app.use(function(req, res) {
   const initialState = {};
-
+  console.log('are we in');
+  
   const store = configureStore(initialState);
 
   Router.match({ routes: routes.default(store), location: req.url }, function(err, redirectLocation, renderProps) {
@@ -91,6 +92,7 @@ app.use(function(req, res) {
     }
   });
 });
+
 
 // Production error handler
 if (app.get('env') === 'production') {
